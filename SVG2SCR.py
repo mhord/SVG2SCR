@@ -733,6 +733,7 @@ for shape in parser.pathData:
             continue
 
 scriptName = filename[:-4] + ".scr"
+
 with open(scriptName, 'w') as f:
     f.write("GRID MM;\n")
     f.write("SET WIRE_BEND 2;\n")
@@ -754,4 +755,12 @@ with open(scriptName, 'w') as f:
                 f.write(shortPoint[1])
                 f.write(')\n')
                 lastPoint = shortPoint
+        point = path.path[0]
+        shortPoint = ['{:.2f}'.format(point[0]), '{:.2f}'.format(point[1])]
+        f.write('(')
+        f.write(shortPoint[0])
+        f.write(' ')
+        f.write(shortPoint[1])
+        f.write(')\n')
+        
         f.write(';\n')
