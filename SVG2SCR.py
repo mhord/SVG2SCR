@@ -4,7 +4,7 @@ import os, sys, re, math
 ## Filename specification section. Can be an absolute path, a relative path, or
 ##  by using sys.argv[1], can be a file which is dropped onto the script.
 filename = sys.argv[1]
-##filename = "border_only.svg"
+##filename = "filename_here.svg"
 
 ## this class represents the raw data plucked from the SVG file. 
 class SVGPath:
@@ -267,11 +267,11 @@ class cubicBezier:
         
         point = [0,0]
         segments = int(math.ceil(length))
-        if segments < 8:
-            segments = 8
+        if segments < 16:
+            segments = 16
         p = 1.0/segments
-        print p
-        for pts in range(1,int(math.ceil(length))):
+        ##for pts in range(1,int(math.ceil(length))):
+        for pts in range(1,segments+1):
             t = pts*p
             u = 1-t
             tt = t*t
@@ -281,7 +281,6 @@ class cubicBezier:
             point[0]=((uuu*sp[0])+(3*uu*t*h1x)+(3*u*tt*h2x)+(ttt*epx))
             point[1]=((uuu*sp[1])+(3*uu*t*h1y)+(3*u*tt*h2y)+(ttt*epy))
             self.list.append([point[0],point[1]])
-        self.list.append([epx, epy])
 
 ## This class is implemented to create a list of points to interpolate a 
 ##  quadratic Bezier into a list of sub-lines. It takes as an argument to the
@@ -318,10 +317,11 @@ class quadBezier:
         
         point = [0,0]
         segments = int(math.ceil(length))
-        if segments < 8:
-            segments = 8
+        if segments < 16:
+            segments = 16
         p = 1.0/segments
-        for pts in range(1,int(math.ceil(length))):
+        ##for pts in range(1,int(math.ceil(length))):
+        for pts in range(1,segments+1):
             t = pts*p
             u = 1-t
             tt = t*t
@@ -329,7 +329,6 @@ class quadBezier:
             point[0]=((uu*sp[0])+(2*u*t*h1x)+(tt*epx))
             point[1]=((uu*sp[1])+(2*u*t*h1y)+(tt*epy))
             self.list.append([point[0],point[1]])
-        self.list.append([epx, epy])
 
 f = open(filename, 'r')   ## Open the file in question.
 svg_data = f.read()       ## Read the data into a holding structure.
@@ -694,7 +693,6 @@ for shape in parser.pathData:
             pathList[-1].path.extend(curve.list)
             continue
         if (mode == SMOOTHQUADABS):
-            print "pork chops!"
             h1x = chqx
             h1y = chqy
             epx = (float(shape.path[i]) + xOffset)/3.54
@@ -747,7 +745,7 @@ with open(scriptName, 'w') as f:
         i = 0
         lastPoint = []
         for point in path.path:
-            shortPoint = ['{:.2f}'.format(point[0]), '{:.2f}'.format(point[1])]
+            shortPoint = ['{:.6f}'.format(point[0]), '{:.6f}'.format(point[1])]
             if shortPoint != lastPoint:
                 f.write('(')
                 f.write(shortPoint[0])
@@ -756,7 +754,7 @@ with open(scriptName, 'w') as f:
                 f.write(')\n')
                 lastPoint = shortPoint
         point = path.path[0]
-        shortPoint = ['{:.2f}'.format(point[0]), '{:.2f}'.format(point[1])]
+        shortPoint = ['{:.6f}'.format(point[0]), '{:.6f}'.format(point[1])]
         f.write('(')
         f.write(shortPoint[0])
         f.write(' ')
