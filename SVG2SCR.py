@@ -393,7 +393,7 @@ with open(scriptName, 'w') as f:
         i = 0
         lastPoint = []
         for point in path.path:
-            shortPoint = ['{:.6f}'.format(point[0]), '{:.6f}'.format(point[1])]
+            shortPoint = ['{:.2f}'.format(point[0]), '{:.2f}'.format(point[1])]
             if shortPoint != lastPoint:
                 f.write('(')
                 f.write(shortPoint[0])
@@ -405,7 +405,7 @@ with open(scriptName, 'w') as f:
         ##  otherwise close, but only if they're polygons.
         if path.pathType == "POLYGON":
             point = path.path[0]
-            shortPoint = ['{:.6f}'.format(point[0]), '{:.6f}'.format(point[1])]
+            shortPoint = ['{:.2f}'.format(point[0]), '{:.2f}'.format(point[1])]
             f.write('(')
             f.write(shortPoint[0])
             f.write(' ')
