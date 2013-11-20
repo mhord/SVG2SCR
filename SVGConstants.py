@@ -51,3 +51,6 @@ ARC             = 16    ## a (relative elliptical ARC)- defines an arc using
                         ##  of the arc, and those are the 6th and 7th
                         ##  parameters.
 ARCABS          =17     ## A (absolute elliptical ARC)
+REALMOVEABS     =18     ## For when it's a REAL absolute move, instead of an
+                        ##  implied absolute move caused by it being first in
+                        ##  the path.

@@ -9,7 +9,7 @@ import os, sys, re, math
 ##  by using sys.argv[1], can be a file which is dropped onto the script.
 ##filename = sys.argv[1]
 filename = "sandbox_silk.svg"
-
+##filename = "test25.svg"
 f = open(filename, 'r')   ## Open the file in question.
 svg_data = f.read()       ## Read the data into a holding structure.
 f.close()                 ## Be a good resident of the OS and close the file.
@@ -83,7 +83,7 @@ for shape in parser.pathData:
                 mode = MOVE
             continue
         if (shape.path[i] == 'M'):
-            mode = MOVEABS
+            mode = REALMOVEABS
             continue
         if (shape.path[i] == 'l'):
             mode = LINE
@@ -161,6 +161,20 @@ for shape in parser.pathData:
             cpy = (float(shape.path[i]) + yOffset)/-3.54
             pathList[-1].path.append([cpx,cpy])
             if (i == 2):
+                mode = LINE
+            else:
+                mode = LINEABS
+            chqx = cpx
+            chqy = cpy
+            chcx = cpx
+            chcy = cpy
+            continue
+        if (mode == REALMOVEABS):
+            cpx = (float(shape.path[i]) + xOffset)/3.54
+            i = i+1
+            cpy = (float(shape.path[i]) + yOffset)/-3.54
+            pathList[-1].path.append([cpx,cpy])
+            if (i == 1):
                 mode = LINE
             else:
                 mode = LINEABS
