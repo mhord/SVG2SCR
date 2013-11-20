@@ -18,5 +18,6 @@ This tool is kind of primitive. In order to get anything remotely resembling goo
 adhere to these guidelines when creating an SVG file to use with it:
 
 - Don't group objects. Dealing with arbitrary depths of transformation is a bit much.
-- Filled polygons should have one contiguous border; whitespace is a no-no.
+- Filled polygons should have one contiguous border; whitespace is a no-no. Use the "Division" command to split shapes.
 - Make everything a path.
+- In "Inkscape Preferences: Transforms" turn on "Optimize" rather than "Preserve". This changes the coordinates rather than saving a matrix.
