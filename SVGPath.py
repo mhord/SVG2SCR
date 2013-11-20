@@ -7,7 +7,7 @@ class SVGPath:
                              ##  file are all given in px, and 1mm ~= 3.54px.
                              ##  This offset is ONLY local- there may be other
                              ##  offsets that get applied as well.
-        self.pathType = []   ## Do we want to create a polygon or just a wire
+        self.pathType = "WIRE" ## Do we want to create a polygon or just a wire
                              ##  in the EAGLE script? Defined by whether the
                              ##  path is filled (fill color has no impact) or
                              ##  not.

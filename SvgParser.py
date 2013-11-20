@@ -49,7 +49,14 @@ class SvgParser(HTMLParser):
                 ##  and subtract it from the overall yOffset because of the dumb
                 ##  "lower-left" origin thing in Inkscape.
                 if i[0] == 'height':
-                    self.yOffset = self.yOffset - float(i[1])
+                    ## Sometimes, particularly with files that come from Adobe
+                    ##  illustrator, the height will be denoted with a trailing
+                    ##  "px". If that's the case, we need to ignore it.
+                    if "px" in i[1]:
+                        self.yOffset = self.yOffset - float(i[1][0:-2])
+                    else:
+                        self.yOffset = self.yOffset - float(i[1])
+                        
 
         ## Next, let's handle the <g> tag. We only expect to see one of these-
         ##  if our users can't adhere to the spec that's not our problem. The
@@ -131,15 +138,19 @@ class SvgParser(HTMLParser):
                         ##  looking for.
                         if "fill:" in i:
                             if (i != "fill:none"):
-                                self.pathData[-1].pathType.append("POLYGON")
+                                self.pathData[-1].pathType="POLYGON"
                             else:
-                                self.pathData[-1].pathType.append("WIRE")
+                                self.pathData[-1].pathType="WIRE"
                         ## "stroke" encodes the layer in the red value.
                         if "stroke:" in i:
                             ## The red value is two characters buried in this
                             ##  string, and is expressed as a hex value, so we
                             ##  must first extract those characters and then
                             ##  convert them to a base 10 integer value.
+                            ##  If the user hasn't made a stroke style yet, we
+                            ##  need to catch that.
+                            if "none" in i:
+                                print "You didn't specify a stroke somewhere!"
                             self.pathData[-1].pathLayer = int(i[-6:-4],16)
                             ## A sanity check- if the user neglected to set a
                             ##  layer, be a pal and assume that "dimension" is a

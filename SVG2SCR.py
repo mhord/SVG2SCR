@@ -8,7 +8,7 @@ import os, sys, re, math
 ## Filename specification section. Can be an absolute path, a relative path, or
 ##  by using sys.argv[1], can be a file which is dropped onto the script.
 ##filename = sys.argv[1]
-filename = "test25.svg"
+filename = "sandbox_silk.svg"
 
 f = open(filename, 'r')   ## Open the file in question.
 svg_data = f.read()       ## Read the data into a holding structure.
@@ -52,7 +52,7 @@ for shape in parser.pathData:
     ## We need to convert information from the SVGPath object to the
     ##  corresponding field in the EAGLEPath object that we just appended to the
     ##  pathList object.
-    pathList[-1].pathType.extend(shape.pathType)
+    pathList[-1].pathType=shape.pathType
     pathList[-1].pathWeight = shape.pathWeight
     pathList[-1].pathLayer = shape.pathLayer
 
@@ -160,7 +160,7 @@ for shape in parser.pathData:
             i = i+1
             cpy = (float(shape.path[i]) + yOffset)/-3.54
             pathList[-1].path.append([cpx,cpy])
-            if (i == 1):
+            if (i == 2):
                 mode = LINE
             else:
                 mode = LINEABS
@@ -387,7 +387,7 @@ with open(scriptName, 'w') as f:
         f.write("LAYER ")
         f.write('{}'.format(path.pathLayer))
         f.write(";\n")
-        f.write(path.pathType[0])
+        f.write(path.pathType)
         f.write(' {:.3f}'.format(path.pathWeight))
         f.write("\n")
         i = 0
