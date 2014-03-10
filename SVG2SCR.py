@@ -7,8 +7,7 @@ import os, sys, re, math
 
 ## Filename specification section. Can be an absolute path, a relative path, or
 ##  by using sys.argv[1], can be a file which is dropped onto the script.
-##filename = sys.argv[1]
-filename = "sandbox_silk.svg"
+filename = sys.argv[1]
 ##filename = "test25.svg"
 f = open(filename, 'r')   ## Open the file in question.
 svg_data = f.read()       ## Read the data into a holding structure.
