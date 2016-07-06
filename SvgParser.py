@@ -111,7 +111,19 @@ class SvgParser(HTMLParser):
                     ##  of them to be floating point values to express the
                     ##  coordinate data of each point. We'll cope with that
                     ##  later.
-                    self.pathData[-1].path.extend(re.findall(r'[^,\s]+',i[1]))
+
+                    ## Some tools do not add spaces or commas around the
+                    ## command characters. This re.sub command is supposed
+                    ## to resolve this.
+                    temp = re.sub(r"(M|L|H|V|C|S|Q|T|A|Z)", r" \1 ", i[1],
+                                    flags=re.IGNORECASE)
+
+                    ## Some tools do not separate numbers followed by a negative
+                    ## number. This re.sub command is supposed to resolve this
+                    ## specific issue.
+                    temp = re.sub(r"([0-9]+)(-[0-9+])", r"\1 \2", temp)
+
+                    self.pathData[-1].path.extend(re.findall(r'[^,\s]+',temp))
                 ## The "style" attribute defines thigs like opacity, line
                 ##  weight, fill and line colors, etc etc. We use it to encode
                 ##  the type of entity we're going to create (a polygon or an
